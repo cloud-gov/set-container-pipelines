@@ -14,31 +14,45 @@ jobs:
   plan:
     - get: common-pipelines
       trigger: true
+      passed: [set-self]
+    - get: src
+      trigger: true
     - across:
       - var: name # repo, pipeline, and image name; all the same.
         values:
           - ubuntu-hardened
       do:
-      - set_pipeline: ((.name))
+      - set_pipeline: ((.:name))
         file: common-pipelines/container/pipeline.yml
         var_files:
-          - src/ci/internal/((.name))/vars.yml
+          - src/ci/internal/((.:name))/vars.yml
 
 - name: set-external-pipelines
   plan:
     - get: common-pipelines
       trigger: true
+      passed: [set-self]
+    - get: src
+      trigger: true
     - across:
       - var: name # repo, pipeline, and image name; all the same.
         values:
           - git-resource
+          - registry-image-resource
       do:
-      - set_pipeline: ((.name))
+      - set_pipeline: ((.:name))
         file: common-pipelines/container/pipeline-external-repository.yml
         var_files:
-          - src/ci/external/((.name))/vars.yml
+          - src/ci/external/((.:name))/vars.yml
 
 resources:
+- name: common-pipelines
+  type: git
+  source:
+    uri: https://github.com/cloud-gov/common-pipelines
+    branch: main
+    commit_verification_keys: ((cloud-gov-pgp-keys))
+
 - name: src
   type: git
   source:

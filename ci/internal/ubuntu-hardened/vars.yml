@@ -1,1 +1,5 @@
-# todo
+base-image: ubuntu
+base-image-tag: "22.04"
+image-repository: ubuntu-hardened
+oci-build-params: {}
+src-repo: cloud-gov/ubuntu-hardened
