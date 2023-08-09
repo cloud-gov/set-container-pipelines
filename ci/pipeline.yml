@@ -12,11 +12,13 @@ jobs:
 
 - name: set-internal-pipelines
   plan:
-    - get: common-pipelines
-      trigger: true
-      passed: [set-self]
-    - get: src
-      trigger: true
+    - in_parallel:
+      - get: common-pipelines
+        trigger: true
+        passed: [set-self]
+      - get: src
+        trigger: true
+        passed: [set-self]
     - across:
       - var: name # repo, pipeline, and image name; all the same.
         values:
@@ -30,11 +32,13 @@ jobs:
 
 - name: set-external-pipelines
   plan:
-    - get: common-pipelines
-      trigger: true
-      passed: [set-self]
-    - get: src
-      trigger: true
+    - in_parallel:
+      - get: common-pipelines
+        trigger: true
+        passed: [set-self]
+      - get: src
+        trigger: true
+        passed: [set-self]
     - across:
       - var: name # repo, pipeline, and image name; all the same.
         values:
