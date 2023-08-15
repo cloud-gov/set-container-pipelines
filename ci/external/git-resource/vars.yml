@@ -1,8 +1,7 @@
 base-image: ubuntu-hardened
 base-image-tag: "latest"
 image-repository: git-resource
-oci-build-params: {
-  BUILD_ARG_DEBIAN_FRONTEND: noninteractive
-}
+oci-build-params: {}
 src-repo: concourse/git-resource
 src-target-branch: master
+DEBIAN_FRONTEND: noninteractive
